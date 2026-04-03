@@ -1,3 +1,5 @@
+[![Deploy to GitHub Pages](https://github.com/tasken/webArt/actions/workflows/deploy.yml/badge.svg)](https://github.com/tasken/webArt/actions/workflows/deploy.yml)
+
 # webArt
 
 Interactive, generative text-mode art rendered with WebGL as a live character grid in the browser.
