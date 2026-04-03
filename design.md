@@ -51,10 +51,10 @@ webArt/
 The app is split into five runtime modules:
 
 ### `main.js`
-Entry point. Loads fonts, creates the renderer and word cycler, manages the animation loop, tracks pointer position and velocity, injects forces into the fluid simulation, and handles cleanup during hot-module replacement. Supports keyboard mode switching between procedural (key 1) and words (key 2) modes.
+Entry point. Loads fonts, creates the renderer and word cycler, manages the animation loop, tracks pointer position and velocity, injects forces into the fluid simulation, and handles cleanup during hot-module replacement.
 
 ### `renderer.js`
-Compiles the shader program, builds a single-row glyph atlas (measuring max width across all characters), manages three GPU textures (font atlas on unit 0, fluid data on unit 1, word bitmap on unit 2), keeps the canvas sized to device pixels, and pushes runtime uniforms into WebGL on each frame. Exposes `recompile()` for shader-only HMR, `uploadFluid()` for CPU→GPU fluid transfer, `uploadWordTexture()` for word bitmap upload, and `setMode()` for switching render modes. A random `u_seed` uniform is set once per session so each page load looks different.
+Compiles the shader program, builds a single-row glyph atlas (measuring max width across all characters), manages three GPU textures (font atlas on unit 0, fluid data on unit 1, word bitmap on unit 2), keeps the canvas sized to device pixels, and pushes runtime uniforms into WebGL on each frame. Exposes `recompile()` for shader-only HMR, `uploadFluid()` for CPU→GPU fluid transfer, and `uploadWordTexture()` for word bitmap upload. A random `u_seed` uniform is set once per session so each page load looks different.
 
 ### `sketch.js`
 Contains the editable art logic: the vertex shader, the fragment shader, and the character/font configuration. The fragment shader generates the animated value field using domain warping with irrational frequency ratios (φ, √2), samples the CPU fluid texture for organic distortion, converts values to glyph lookups, and shades with OKLch perceptual color. In words mode, it samples the word bitmap through the same warped UV space.
@@ -126,8 +126,6 @@ Colors use the OKLch perceptual color space (Björn Ottosson's OKLab, 2020). The
 - **Pointer move** — injects directional forces into the fluid sim + adds shader glow
 - **Pointer down** — amplifies force injection and triggers warm color burst
 - **Pointer leave / idle** — forces decay; fluid drains via per-frame velocity/density decay
-- **Key 1** — procedural mode (default)
-- **Key 2** — words mode (split-flap animated text)
 
 ---
 
